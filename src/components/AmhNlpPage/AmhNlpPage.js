@@ -1,7 +1,7 @@
 import React from 'react';
 import { FiExternalLink } from "react-icons/fi";
 
-import profile from '../../asset/profile.png';
+import profile from '../../asset/profile.JPG';
 
 function AmhNlpPage() {
     return (

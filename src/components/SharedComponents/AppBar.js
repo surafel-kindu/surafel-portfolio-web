@@ -1,96 +1,112 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 
-import { FiUser, FiCode, FiGithub, FiAward, FiPhone, FiAlignJustify, FiX } from "react-icons/fi";
+import { useLocation, useNavigate } from "react-router-dom";
+import { FiArrowUpRight, FiMenu, FiX } from "react-icons/fi";
 
-  const menus = [
-    {id:1, name:'About', url:'about', icon: <FiUser/>},
-    {id:3, name:'Work', url:'work', icon: <FiCode/>}, 
-    {id:2, name:'Projects', url:'projects', icon: <FiGithub/>},
-    {id:2, name:'Certificates', url:'certificates', icon: <FiAward/>},
-    {id:4, name:'Contact', url:'contact', icon: <FiPhone/>}
-]
+const menus = [
+    { id: 1, name: 'About', url: 'about' },
+    { id: 2, name: 'Products', url: 'products' },
+    { id: 3, name: 'Work', url: 'work' },
+    { id: 4, name: 'Projects', url: 'projects' },
+    { id: 5, name: 'Certificates', url: 'certificates' },
+    { id: 6, name: 'Blog', url: '/blog', route: true },
+    { id: 7, name: 'Contact', url: 'contact' }
+];
 
-// FaDownload
-
-function AppBar({scrolldown, scrollZero}){
+function AppBar() {
     const [openSide, setOpenSide] = useState(false);
+    const location = useLocation();
+    const navigate = useNavigate();
 
-    const topClass = "fixed top-0 z-50 bg-darker-2 flex flex-col md:flex-row w-full h-20 md:h-24 items-center justify-center gap-6 px-8 py-6 md:py-0 duration-500 drop-shadow-xl";
-    const  topClassScroll = topClass + " -translate-y-44 md:-translate-y-24 duration-500";
+    const goTo = (menu) => {
+        setOpenSide(false);
+        if (menu.route) {
+            navigate(menu.url);
+            return;
+        }
+        if (location.pathname !== '/') {
+            // Not on the landing page — go home first, then scroll to the section.
+            navigate('/', { state: { scrollTo: menu.url } });
+            return;
+        }
+        const reftp = document.getElementById(menu.url);
+        if (reftp) reftp.scrollIntoView({ behavior: 'smooth' });
+    };
 
-    const scrollToRef = (id) => {
-        const reftp = document.getElementById(id);
-        reftp.scrollIntoView({behavior:'smooth'});
-    }
+    const goHome = () => {
+        setOpenSide(false);
+        if (location.pathname !== '/') {
+            navigate('/');
+        } else {
+            const reftp = document.getElementById('about');
+            if (reftp) reftp.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
 
-    return(
-        <div className={scrolldown ? topClassScroll : topClass}>
+    return (
+        <header className="fixed top-4 left-1/2 z-50 w-[min(1120px,94vw)] -translate-x-1/2">
+            <nav className="flex items-center justify-between gap-3 rounded-full border border-ink/10 bg-white/85 py-2.5 pl-3 pr-2.5 shadow-chip backdrop-blur-xl">
 
-            <div className="flex grow w-full items-center justify-between md:gap-4">
-                <div className="text-orange-dark font-roboto font-bold text-3xl flex flex-col"> 
-                    <div className="flex md:hidden"> CJ. </div>
-                    <div className="hidden md:flex"> SURAFEL KINDU </div>
-                    {/* <div className="text-stone-400 font-roboto text-sm font-normal"> You can call me CJ </div> */}
-                </div>
-                {openSide && (
-                    <button className="group md:hidden" onClick={() => setOpenSide(false)}>
-                        <FiX className="text-red-400 font-roboto text-2xl group-hover:text-light-1"/>
-                    </button>
-                )}
+                <button onClick={goHome} className="flex items-center gap-2.5">
+                    <span className="grid h-9 w-9 place-items-center rounded-xl bg-ink font-display text-base font-black text-lime-pop">
+                        S.
+                    </span>
+                    <span className="hidden sm:block font-display text-sm font-extrabold uppercase tracking-widest text-ink">
+                        Surafel Kindu
+                    </span>
+                </button>
 
-                {!openSide && (
-                    <button className="group md:hidden" onClick={() => setOpenSide(true)}>
-                        <FiAlignJustify className="text-light-1 font-roboto text-2xl group-hover:text-red-400"/>
-                    </button>
-                )}
-            </div>
-
-            <ul className="gap-6 md:gap-8 items-center justify-center h-full hidden md:flex">
-                {menus.map((menu) => {
-                    return (
-                        <li id={menu.id}>
-                            <button 
-                            onClick={(e)=>{
-                                e.preventDefault();
-                                scrollToRef(menu.url);
-                                setOpenSide(false);
-                            }}
-                            className="group flex flex-col gap-1 tracking-wider md:tracking-widest text-md font-thin text-light-1 hover:text-orange-dark hover:cursor-pointer font-roboto duration-200">
-                                <div className="flex gap-2 items-center">
-                                    {menu.icon} {menu.name}
-                                </div>
-                                <div className="flex w-0 group-hover:w-full h-0.5 bg-orange-dark rounded-full duration-200">
-                                </div>
+                <ul className="hidden lg:flex items-center gap-6">
+                    {menus.map((menu) => (
+                        <li key={menu.id}>
+                            <button
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    goTo(menu);
+                                }}
+                                className="group flex flex-col items-center gap-1 text-[11px] font-display font-bold uppercase tracking-[0.18em] text-ink/55 transition-colors duration-200 hover:text-orange-pop">
+                                {menu.name}
+                                <span className="h-0.5 w-0 rounded-full bg-orange-pop transition-all duration-200 group-hover:w-full"></span>
                             </button>
                         </li>
-                    );
-                })}
-            </ul>
-
-            <div className={"fixed top-0 right-0 flex flex-col w-2/3 bg-darker-2 p-8 gap-6 md:hidden mt-20 duration-500 " + (openSide?"translate-x-0 opacity-100":"translate-x-full opacity-0")}>
-                <ul className="flex flex-col gap-6 h-full">
-                    {menus.map((menu) => {
-                        return (
-                            <li id={menu.id}>
-                                <button onClick={(e)=>{
-                                    e.preventDefault();
-                                    scrollToRef(menu.url);
-                                    setOpenSide(false);
-                                }} className="group flex-col gap-1 tracking-wider md:tracking-widest text-md font-thin text-light-1 inline hover:text-red-400 hover:cursor-pointer font-roboto duration-200">
-                                    <div className="flex gap-2 items-center">
-                                        <span className="text-red-400">{menu.icon}</span> {menu.name}
-                                    </div>
-                                    <div className="flex w-0 group-hover:w-full h-0.5 bg-red-500 rounded-full duration-200">
-
-                                    </div>
-                                </button>
-                            </li>
-                        );
-                    })}
+                    ))}
                 </ul>
-            </div>
-            
-        </div>
+
+                <div className="flex items-center gap-2">
+                    <button
+                        onClick={() => goTo({ url: 'contact' })}
+                        className="group hidden sm:flex items-center gap-2 rounded-full bg-ink py-2 pl-5 pr-2 text-[11px] font-display font-bold uppercase tracking-[0.18em] text-cream transition-colors duration-300 hover:bg-orange-pop">
+                        Let's talk
+                        <span className="grid h-7 w-7 place-items-center rounded-full bg-lime-pop text-ink transition-transform duration-300 group-hover:rotate-45">
+                            <FiArrowUpRight size={13} />
+                        </span>
+                    </button>
+
+                    <button
+                        onClick={() => setOpenSide(!openSide)}
+                        className="grid h-9 w-9 place-items-center rounded-full border border-ink/10 bg-cream text-ink lg:hidden">
+                        {openSide ? <FiX size={16} /> : <FiMenu size={16} />}
+                    </button>
+                </div>
+            </nav>
+
+            {openSide && (
+                <div className="mt-2 flex flex-col gap-1 rounded-3xl border border-ink/10 bg-white p-3 shadow-bento lg:hidden">
+                    {menus.map((menu) => (
+                        <button
+                            key={menu.id}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                goTo(menu);
+                            }}
+                            className="flex items-center justify-between rounded-2xl px-4 py-3 text-left font-display text-xs font-bold uppercase tracking-[0.18em] text-ink/70 transition-colors hover:bg-cream hover:text-orange-pop">
+                            {menu.name}
+                            <FiArrowUpRight className="text-orange-pop" />
+                        </button>
+                    ))}
+                </div>
+            )}
+        </header>
     );
 }
 

@@ -1,0 +1,163 @@
+{
+    "posts": [
+        {
+            "slug": "agentic-ai-n8n-ai-security",
+            "title": "Testing the Unpredictable: Agentic AI, n8n, and AI Security",
+            "date": "July 22, 2026",
+            "readTime": "5 min read",
+            "author": "Surafel Kindu",
+            "tags": ["Agentic AI", "n8n", "AI Security", "TestSavant"],
+            "cover": "/images/blog/afroawi-1.jpg",
+            "excerpt": "Notes from my day-to-day as a software engineer at TestSavant.AI — testing agentic AI systems that never give the same answer twice, wiring it all together with n8n, and probing AI for security holes before attackers do.",
+            "blocks": [
+                {
+                    "type": "p",
+                    "text": "Traditional software is polite: same input, same output, every time. AI applications are not. At TestSavant.AI, where I work as a software engineer, my job is to help teams test, harden and prove systems that are non-deterministic by design — agentic workflows, RAG pipelines and chatbots that can give a different answer on every run."
+                },
+                {
+                    "type": "h2",
+                    "text": "Agentic AI breaks the old QA playbook"
+                },
+                {
+                    "type": "p",
+                    "text": "An agent doesn't just return text — it plans, calls tools and takes actions. That means a test can't just check 'was the answer good?' It has to ask: did the agent capture every action it should? Did it call the right tool with schema-valid arguments? Can it be tricked into leaking its system prompt? These are the failure modes I think about every day, and each one needs its own evaluator."
+                },
+                {
+                    "type": "p",
+                    "text": "The interesting engineering challenge is that generic test cases are useless here. A test suite has to be specific to the application under test, and it has to concentrate on the categories where that application is actually weakest — otherwise you're burning tokens to feel safe."
+                },
+                {
+                    "type": "h2",
+                    "text": "Where n8n fits in"
+                },
+                {
+                    "type": "p",
+                    "text": "n8n has become my favorite glue. Testing AI once is easy; testing it continuously is the real product. I use n8n to orchestrate the boring-but-critical plumbing around evaluation runs so that quality checks happen without anyone remembering to click a button."
+                },
+                {
+                    "type": "list",
+                    "items": [
+                        "Scheduled regression runs that fire daily or on every model/prompt update",
+                        "CI/CD release gates — a failing run blocks the release like any pipeline check",
+                        "Failure alerts routed to the right channel with the category and policy label attached",
+                        "Evidence reports generated and delivered after every run"
+                    ]
+                },
+                {
+                    "type": "p",
+                    "text": "The pattern that works: keep the workflow dumb and the evaluators smart. n8n moves data and triggers runs; the evaluators decide what 'good' means."
+                },
+                {
+                    "type": "h2",
+                    "text": "AI security is not optional"
+                },
+                {
+                    "type": "p",
+                    "text": "The other half of my work is adversarial. AI red teaming means probing a system the way an attacker would: prompt injection to hijack instructions, attempts to extract the system prompt, nudging the model to leak PII or confidential data, pushing it off-topic or into answers your sources don't support."
+                },
+                {
+                    "type": "p",
+                    "text": "What I like about this space is that testing and protection form a loop: red teaming finds the failure, runtime guardrails enforce the fix in production, re-runs confirm the fix holds, and every cycle leaves evidence you can hand to a CTO or a compliance team."
+                },
+                {
+                    "type": "quote",
+                    "text": "You can't ship what you can't test — and you can't secure what you never probe."
+                },
+                {
+                    "type": "h2",
+                    "text": "What I've learned so far"
+                },
+                {
+                    "type": "list",
+                    "items": [
+                        "Evals must be application-specific — generic LLM-generated tests miss your real risks",
+                        "Test at every level: the live UI, the agent workflow, the system prompt, and the raw model",
+                        "Track failure rates run over run — a slow decline is a regression too",
+                        "Guardrails and testing are one loop, not two products",
+                        "Every release needs evidence, not vibes"
+                    ]
+                },
+                {
+                    "type": "p",
+                    "text": "If you're building agentic or RAG applications and your testing strategy is 'we tried it a few times and it looked fine' — I have been there, and I promise the failure rate will surprise you. Feel free to reach out; this is literally my day job."
+                }
+            ]
+        },
+        {
+            "slug": "halt-modern-rate-limiting",
+            "title": "Halt: One Rate-Limiting Policy for Every Stack I Touch",
+            "date": "July 2, 2026",
+            "readTime": "4 min read",
+            "author": "Surafel Kindu",
+            "tags": ["Halt", "Open Source", "Python", "TypeScript"],
+            "cover": "/images/blog/halt-3.jpg",
+            "excerpt": "Why I built Halt — an open-source rate-limiting SDK with safe defaults, observability hooks and distributed storage, working the same in Python and TypeScript.",
+            "blocks": [
+                {
+                    "type": "p",
+                    "text": "Every API I have ever shipped eventually needed rate limiting — and every time, the answer was a different library, tied to a different framework, with different defaults and different header conventions. Halt is the tool I wanted instead: one policy language, drop-in middleware, working the same in Python and TypeScript."
+                },
+                {
+                    "type": "h2",
+                    "text": "Middleware, not homework"
+                },
+                {
+                    "type": "p",
+                    "text": "Halt sits between your clients and your handlers. It identifies who is calling (by IP, user, API key — your strategy), counts their requests against a policy, and forwards or blocks each one in well under a millisecond. Your route code never changes."
+                },
+                {
+                    "type": "code",
+                    "text": "from fastapi import FastAPI\nfrom halt import RateLimiter, InMemoryStore, presets\nfrom halt.adapters.fastapi import HaltMiddleware\n\napp = FastAPI()\n\nlimiter = RateLimiter(\n    store=InMemoryStore(),\n    policy=presets.PUBLIC_API  # 100 req/min\n)\n\napp.add_middleware(HaltMiddleware, limiter=limiter)"
+                },
+                {
+                    "type": "p",
+                    "text": "Blocked requests get a 429 before your handler ever runs, every response carries RateLimit-* headers, and well-behaved clients get a Retry-After so they can back off on their own."
+                },
+                {
+                    "type": "h2",
+                    "text": "One policy, any stack"
+                },
+                {
+                    "type": "p",
+                    "text": "Halt ships with four algorithms (Token Bucket, Fixed Window, Sliding Window, Leaky Bucket), six storage backends (Memory, Redis, PostgreSQL, MongoDB, DynamoDB, Memcached), and adapters for eight frameworks — FastAPI, Flask, Django, Litestar, Starlette on the Python side; Express, NestJS, Next.js, Hono, Fastify on the TypeScript side."
+                },
+                {
+                    "type": "image",
+                    "src": "/images/blog/halt-2.jpg",
+                    "caption": "One policy. Any stack. Limit with confidence."
+                },
+                {
+                    "type": "h2",
+                    "text": "Built for SaaS from day one"
+                },
+                {
+                    "type": "list",
+                    "items": [
+                        "Plans, quotas and penalties — free tier vs team tier with per-plan tagging",
+                        "Weighted endpoints so expensive routes cost more of the budget",
+                        "Health-check exemptions and private-IP allowlists out of the box",
+                        "StatsCollector for a /halt/stats endpoint plus an OpenTelemetry metrics adapter",
+                        "Burst-friendly algorithms like Token Bucket that refill gradually"
+                    ]
+                },
+                {
+                    "type": "image",
+                    "src": "/images/blog/halt-1.jpg",
+                    "caption": "Drop-in middleware with safe defaults and observability hooks."
+                },
+                {
+                    "type": "p",
+                    "text": "Halt is open source (github.com/surafel-kindu/halt) and currently at v0.4.0 — production-ready, but early. More framework adapters, more storage backends and deeper SaaS tooling are on the roadmap."
+                },
+                {
+                    "type": "code",
+                    "text": "pip install halt-rate\n# or\nnpm install halt-rate"
+                },
+                {
+                    "type": "p",
+                    "text": "If you try it, open an issue with what broke — that's how it's gotten this far."
+                }
+            ]
+        }
+    ]
+}

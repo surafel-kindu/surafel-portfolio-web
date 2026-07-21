@@ -1,5 +1,5 @@
 import LandingPage from "./LandingPage";
-import { ResumePage, AmhNlpPage, DetailsPage, OwnedByPage } from "./components";
+import { ResumePage, AmhNlpPage, DetailsPage, OwnedByPage, BlogPage, BlogPostPage } from "./components";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -9,50 +9,43 @@ import { useState, useEffect } from "react";
 import { db } from './firebase/firebaseConfig';
 import { doc, getDoc } from 'firebase/firestore';
 
-import loading from "./asset/loading.gif";
-
+import { fallbackInfo } from "./data/fallback";
 
 function App() {
 
-  const [myData, setMyData] = useState(null);
-
-
-  const getMyData = async () => {
-      const ref = doc(db, "constants", 'info');
-      const docSnap = await getDoc(ref);
-      if (docSnap.exists()) {
-          const data = docSnap.data();
-          setMyData(data);
-      } else {
-          console.log("No such document!");
-      }
-  }
+  // Render immediately with local fallback data; Firestore overrides it when available.
+  const [myData, setMyData] = useState(fallbackInfo);
 
   useEffect(() => {
-      getMyData();
-    // eslint-disable-next-line
+    let mounted = true;
+    const getMyData = async () => {
+      try {
+        const ref = doc(db, "constants", 'info');
+        const docSnap = await getDoc(ref);
+        if (mounted && docSnap.exists()) {
+          setMyData({ ...fallbackInfo, ...docSnap.data() });
+        }
+      } catch (err) {
+        // Offline / Firestore unavailable — local fallback data stays in place.
+      }
+    };
+    getMyData();
+    return () => { mounted = false; };
   }, []);
-
 
   return (
     <UserContext.Provider value={{myData, setMyData}}>
-      <div className="bg-light-1">
-        {myData ? (
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<LandingPage />} />
-              <Route path="work/:id" element={<DetailsPage />} />
-              <Route path="owned-by" element={<OwnedByPage />} />
-              <Route path="resume" element={<ResumePage />} />
-              <Route path="amh-nlp" element={<AmhNlpPage />} />
-            </Routes>
-          </BrowserRouter>
-        ) : (
-          <div className="flex w-full min-h-screen justify-center items-center bg-white">
-            <img src={loading} alt="Loading Gif" className="w-60" />
-          </div>
-        )}
-      </div>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="blog" element={<BlogPage />} />
+          <Route path="blog/:slug" element={<BlogPostPage />} />
+          <Route path="work/:id" element={<DetailsPage />} />
+          <Route path="owned-by" element={<OwnedByPage />} />
+          <Route path="resume" element={<ResumePage />} />
+          <Route path="amh-nlp" element={<AmhNlpPage />} />
+        </Routes>
+      </BrowserRouter>
     </UserContext.Provider>
   );
 }

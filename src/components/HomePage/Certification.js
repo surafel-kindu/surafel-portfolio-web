@@ -1,8 +1,9 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 
-import { FiAward, FiArrowRightCircle } from "react-icons/fi";
+import { FiAward, FiArrowUpRight } from "react-icons/fi";
 
 import certifications from "../../json/certifications.json";
+import SectionHeader from "../SharedComponents/SectionHeader";
 
 function Certification() {
 
@@ -13,73 +14,48 @@ function Certification() {
     }, []);
 
     return (
-        <div id="certificates" className="text-slate-400 font-roboto w-full flex flex-col items-center md:items-start gap-0 md:gap-4 justify-start md:py-8 md:px-20 md:mb-32 md:pt-24"> 
-            <div className="flex flex-row justify-between md:justify-between w-full items-center mb-8 md:mb-16">
-                <div className='h-0.5 flex-grow bg-gradient-to-l from-darker-2 to-light-1'></div>
-                <div className='h-2 w-2 md:h-3 md:w-3 bg-darker-2 rotate-45'></div>
-                <div className="font-bold text-3xl md:text-5xl text-darker-2 mx-3 md:mx-6">
-                    Certifications
-                </div>
-                <div className='h-2 w-2 md:h-3 md:w-3 bg-darker-2 rotate-45'></div>
-                <div className='h-0.5 flex-grow bg-gradient-to-r from-darker-2 to-light-1'></div>
-            </div>
-            {certificates!==null && (
-                <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-4">
-                    {certificates.map(({name, org, date, id, link, techs}) => {
-                        return (
-                            <a href={link}>
-                                <div className="col-span-1 h-full flex hover:-translate-y-2 hover:shadow-lg rounded-2xl duration-300 hover:cursor-pointer group">
-                                    <div className="w-full flex flex-col p-3 md:p-6 rounded-lg md:rounded-2xl bg-darker-2">
-                                        <div className="flex justify-between mb-4">
-                                            <FiAward className="w-6 h-6 md:w-10 md:h-10 text-red-400"/>
-                                            <div className="flex gap-4">
-                                                <a href={link} className="hover:text-red-400"> <FiArrowRightCircle className="w-4 h-4 md:w-8 md:h-8 "/> </a>
-                                            </div>
-                                        </div>
-                                        {/* <br /> */}
-                                        <div className="text-md md:text-xl font-bold mb-2 group-hover:text-red-400 duration-200">
-                                            {name}
-                                        </div>
-                                        <div className="text-md font-normal mb-4 hidden md:flex">
-                                            {date}
-                                        </div>
-                                        
-                                        <div className="flex flex-col">
-                                            <div className="text-sm font-normal mr-2">
-                                                Issued By:
-                                            </div>
-                                            <div className="flex flex-wrap gap-2">
-                                                {org.map((tech) => {
-                                                    return (
-                                                        <div className="text-md font-bold mr-2">
-                                                            {tech}
-                                                        </div>
-                                                    );
-                                                })}
-                                            </div>
-                                        </div>
+        <section id="certificates" className="w-full">
+            <SectionHeader title="Certifications" />
 
-                                        <div className="grow"></div>
+            {certificates !== null && (
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-6 xl:grid-cols-4">
+                    {certificates.map(({ name, org, date, id, link, techs }) => (
+                        <article key={id}
+                            className="group flex h-full flex-col rounded-3xl border border-ink/10 bg-white p-6 transition-all duration-300 hover:-translate-y-2 hover:shadow-bento">
 
-                                        {/* <br /> */}
-                                        
-                                        <div className="flex-wrap gap-2 hidden md:flex mt-4">
-                                            {techs.map((tech) => {
-                                                return (
-                                                    <div className="text-sm font-normal font-mono mr-2 ">
-                                                        {tech}
-                                                    </div>
-                                                );
-                                            })}
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        );
-                    })}
+                            <div className="mb-5 flex items-start justify-between">
+                                <span className="grid h-11 w-11 place-items-center rounded-2xl bg-violet-pop text-white">
+                                    <FiAward size={18} />
+                                </span>
+                                <a href={link} target="_blank" rel="noreferrer" aria-label="View certificate"
+                                    className="grid h-9 w-9 place-items-center rounded-full bg-ink text-lime-pop transition-all duration-300 hover:rotate-45 hover:bg-orange-pop hover:text-white">
+                                    <FiArrowUpRight size={15} />
+                                </a>
+                            </div>
+
+                            <h3 className="font-display text-base font-extrabold uppercase leading-snug tracking-tight text-ink transition-colors duration-200 group-hover:text-orange-pop">
+                                {name}
+                            </h3>
+
+                            <div className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-ink/50">
+                                <span className="font-bold text-ink/70">{org.join(" · ")}</span>
+                                <span className="h-1 w-1 rounded-full bg-orange-pop"></span>
+                                <span>{date}</span>
+                            </div>
+
+                            <div className="mt-auto flex flex-wrap gap-2 pt-4">
+                                {techs.slice(0, 4).map((tech) => (
+                                    <span key={tech}
+                                        className="rounded-full border border-ink/10 bg-cream px-2.5 py-1 font-mono text-[9px] uppercase tracking-wider text-ink/55">
+                                        {tech}
+                                    </span>
+                                ))}
+                            </div>
+                        </article>
+                    ))}
                 </div>
             )}
-        </div>
+        </section>
     );
 }
 

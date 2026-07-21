@@ -1,6 +1,8 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 
-import { FaChevronRight} from "react-icons/fa";
+import { FiMail, FiPhone, FiMapPin, FiSend } from "react-icons/fi";
+
+import SectionHeader from "../SharedComponents/SectionHeader";
 
 function Contact() {
 
@@ -11,56 +13,98 @@ function Contact() {
         text: ""
     });
 
+    const rows = [
+        { icon: <FiMail size={15} />, label: "Email", value: "surafel@afroawi.com", href: "mailto:surafel@afroawi.com" },
+        { icon: <FiPhone size={15} />, label: "Phone", value: "+2519 86 214 242", href: "tel:+251986214242" },
+        { icon: <FiMapPin size={15} />, label: "Address", value: "Addis Ababa, Ethiopia", href: null },
+    ];
+
     return (
-        <div id="contact" className="text-stone-300 w-full flex flex-col items-center gap-2 md:px-20 mb-8 mt-10 font-roboto "> 
-            <div className="flex flex-row justify-between md:justify-between w-full items-center mb-8 md:mb-16">
-                <div className='h-0.5 flex-grow bg-gradient-to-l from-darker-2 to-light-1'></div>
-                <div className='h-2 w-2 md:h-3 md:w-3 bg-darker-2 rotate-45'></div>
-                <div className="font-bold text-3xl md:text-5xl text-darker-2 mx-3 md:mx-6">
-                    Let's Chat
-                </div>
-                <div className='h-2 w-2 md:h-3 md:w-3 bg-darker-2 rotate-45'></div>
-                <div className='h-0.5 flex-grow bg-gradient-to-r from-darker-2 to-light-1'></div>
-            </div>
-            <div className="flex w-full">
-                <div className="grid grid-cols-6 gap-4 w-full">
-                    <div className="hidden md:flex md:col-span-1 xl:col-span-2"></div>
-                    
-                    
-                    <div className="col-span-6 md:col-span-4 lg:col-span-4 xl:col-span-2 flex flex-col gap-4">
-                        <input type="text" value={message.name} className="rounded-lg py-3 px-4 text-darker-1" placeholder="Full name" onChange={(e) => setMessage({...message, name: e.target.value})}/>
-                        <input type="email" value={message.email} className="rounded-lg py-3 px-4 text-darker-1" placeholder="Email" onChange={(e) => setMessage({...message, email: e.target.value})}/>
-                        <textarea type="text" value={message.text} cols="30" rows="5" placeholder="Message" className="rounded-lg py-3 px-4 text-darker-1" onChange={(e) => setMessage({...message, text: e.target.value})}/>
-                        <div className="flex items-center justify-center  gap-4 w-full">
-                            <div className="flex group items-center">
-                                <FaChevronRight className='text-red-400 w-2 h-2 group-hover:w-4 group-hover:h-4 invisible -ml-2 group-hover:ml-0 group-hover:visible duration-200'/>
-                                <button onClick={() => {
-                                    setMessageSent(true);
-                                    setMessage({
-                                        name:"",
-                                        email:"",
-                                        text:""
-                                    })
-                                }}
-                                className="px-6 py-2 rounded-lg font-roboto text-white text-md bg-darker-2 ml-0 group-hover:ml-2 group-hover:text-red-400 duration-200">
-                                    Send Message
-                                </button>
+        <section id="contact" className="w-full">
+            <SectionHeader title="Let's Chat" />
+
+            <div className="grid grid-cols-1 overflow-hidden rounded-[2rem] bg-ink shadow-bento lg:grid-cols-5">
+
+                {/* ---- Info panel ---- */}
+                <div className="flex flex-col gap-6 border-b border-white/10 p-8 md:p-12 lg:col-span-2 lg:border-b-0 lg:border-r">
+                    <h3 className="font-display text-3xl font-black uppercase leading-tight tracking-tight text-cream md:text-4xl">
+                        Have a project <span className="text-lime-pop">in mind?</span>
+                    </h3>
+                    <p className="text-sm leading-relaxed text-cream/60 md:text-base">
+                        I'm always open to discussing new products, creative ideas or
+                        opportunities to be part of your vision.
+                    </p>
+
+                    <div className="mt-2 flex flex-col gap-3">
+                        {rows.map((row) => (
+                            <div key={row.label} className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/5 px-4 py-3.5">
+                                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-lime-pop text-ink">
+                                    {row.icon}
+                                </span>
+                                <span className="min-w-0">
+                                    <span className="block text-[9px] font-display font-bold uppercase tracking-[0.2em] text-cream/45">
+                                        {row.label}
+                                    </span>
+                                    {row.href ? (
+                                        <a href={row.href} className="block truncate text-sm font-medium text-cream transition-colors hover:text-lime-pop">
+                                            {row.value}
+                                        </a>
+                                    ) : (
+                                        <span className="block truncate text-sm font-medium text-cream">{row.value}</span>
+                                    )}
+                                </span>
                             </div>
-                            {messageSent && (
-                            <div className="font-roboto text-darker-2 text-md">
-                                Thank you for your message!
-                            </div>)}
-                        </div>
+                        ))}
                     </div>
-
-
-                    <div className="hidden md:flex md:col-span-1 xl:col-span-2"></div>
-                    
                 </div>
 
-                
+                {/* ---- Form panel ---- */}
+                <div className="flex flex-col gap-4 p-8 md:p-12 lg:col-span-3">
+                    <input
+                        type="text"
+                        value={message.name}
+                        placeholder="Full name"
+                        onChange={(e) => setMessage({ ...message, name: e.target.value })}
+                        className="rounded-2xl border border-white/15 bg-white/5 px-5 py-4 text-sm text-cream outline-none transition-colors placeholder:text-cream/35 focus:border-lime-pop"
+                    />
+                    <input
+                        type="email"
+                        value={message.email}
+                        placeholder="Email"
+                        onChange={(e) => setMessage({ ...message, email: e.target.value })}
+                        className="rounded-2xl border border-white/15 bg-white/5 px-5 py-4 text-sm text-cream outline-none transition-colors placeholder:text-cream/35 focus:border-lime-pop"
+                    />
+                    <textarea
+                        value={message.text}
+                        cols="30"
+                        rows="5"
+                        placeholder="Tell me about your project..."
+                        onChange={(e) => setMessage({ ...message, text: e.target.value })}
+                        className="resize-none rounded-2xl border border-white/15 bg-white/5 px-5 py-4 text-sm text-cream outline-none transition-colors placeholder:text-cream/35 focus:border-lime-pop"
+                    />
+
+                    <div className="mt-2 flex flex-wrap items-center gap-4">
+                        <button
+                            onClick={() => {
+                                setMessageSent(true);
+                                setMessage({ name: "", email: "", text: "" });
+                            }}
+                            className="group flex items-center gap-3 rounded-full bg-lime-pop py-3 pl-7 pr-3 font-display text-xs font-bold uppercase tracking-[0.18em] text-ink transition-colors duration-300 hover:bg-orange-pop hover:text-white">
+                            Send message
+                            <span className="grid h-8 w-8 place-items-center rounded-full bg-ink text-lime-pop transition-transform duration-300 group-hover:rotate-45">
+                                <FiSend size={13} />
+                            </span>
+                        </button>
+                        {messageSent && (
+                            <span className="text-sm font-medium text-lime-pop">
+                                Thank you for your message! I'll get back to you soon.
+                            </span>
+                        )}
+                    </div>
+                </div>
+
             </div>
-        </div>
+        </section>
     );
 }
 

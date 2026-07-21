@@ -1,8 +1,9 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 
-import { FiFolder, FiArrowRightCircle, FiGithub } from "react-icons/fi";
+import { FiFolder, FiArrowUpRight, FiGithub } from "react-icons/fi";
 
 import otherworks from "../../json/otherworks.json";
+import SectionHeader from "../SharedComponents/SectionHeader";
 
 function Experience() {
 
@@ -13,58 +14,55 @@ function Experience() {
     }, []);
 
     return (
-        <div id="projects" className="text-slate-400 font-roboto w-full flex flex-col items-center md:items-start gap-4 justify-center px-0 mb-4 md:py-8 md:px-20 md:mb-10"> 
+        <section id="projects" className="w-full">
+            <SectionHeader title="More Projects" />
 
-            <div className="flex flex-row justify-between md:justify-between w-full items-center mb-8 md:mb-16">
-                <div className='h-0.5 flex-grow bg-gradient-to-l from-darker-2 to-light-1'></div>
-                <div className='h-2 w-2 md:h-3 md:w-3 bg-darker-2 rotate-45'></div>
-                <div className="font-bold text-3xl md:text-5xl text-darker-2 mx-3 md:mx-6">
-                    Personal Projects
-                </div>
-                <div className='h-2 w-2 md:h-3 md:w-3 bg-darker-2 rotate-45'></div>
-                <div className='h-0.5 flex-grow bg-gradient-to-r from-darker-2 to-light-1'></div>
-            </div>
             {projects !== null && (
-                <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-4">
-                    {projects.map(({title, description, link, techs, github}) => {
-                        return (
-                            <a href={link}>
-                                <div className="col-span-1 h-full flex hover:-translate-y-2 hover:shadow-lg rounded-2xl duration-300 hover:cursor-pointer group">
-                                    <div className="w-full flex flex-col p-3 md:p-6 rounded-lg md:rounded-2xl bg-darker-2">
-                                        <div className="flex justify-between">
-                                            <FiFolder className="w-6 h-6 md:w-10 md:h-10 text-red-400"/>
-                                            <div className="flex gap-4">
-                                                <a href={link} className="hover:text-red-400"> <FiArrowRightCircle className="w-4 h-4 md:w-6 md:h-6 "/> </a>
-                                                <a href={github} className="hover:text-red-400"> <FiGithub className="w-4 h-4 md:w-6 md:h-6"/> </a>
-                                            </div>
-                                        </div>
-                                        <br />
-                                        <div className="text-md md:text-xl font-bold mb-2 group-hover:text-red-400 duration-200">
-                                            {title}
-                                        </div>
-                                        <div className="text-md font-normal mb-4 hidden md:flex">
-                                            {description}
-                                        </div>
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-6 xl:grid-cols-4">
+                    {projects.map(({ id, title, description, link, techs, github }) => (
+                        <article key={id}
+                            className="group flex h-full flex-col rounded-3xl border border-ink/10 bg-white p-6 transition-all duration-300 hover:-translate-y-2 hover:shadow-bento">
 
-                                        <div className="grow"></div>
-                                        
-                                        <div className="flex-wrap gap-2 hidden md:flex">
-                                            {techs.map((tech) => {
-                                                return (
-                                                    <div className="text-sm font-normal font-mono mr-2">
-                                                        {tech}
-                                                    </div>
-                                                );
-                                            })}
-                                        </div>
-                                    </div>
+                            <div className="mb-5 flex items-start justify-between">
+                                <span className="grid h-11 w-11 place-items-center rounded-2xl bg-lime-pop text-ink">
+                                    <FiFolder size={18} />
+                                </span>
+                                <div className="flex items-center gap-2">
+                                    {github && (
+                                        <a href={github} target="_blank" rel="noreferrer" aria-label="GitHub"
+                                            className="grid h-9 w-9 place-items-center rounded-full border border-ink/10 text-ink/50 transition-colors hover:bg-ink hover:text-lime-pop">
+                                            <FiGithub size={15} />
+                                        </a>
+                                    )}
+                                    {link && (
+                                        <a href={link} target={link.startsWith("/") ? "_self" : "_blank"} rel="noreferrer" aria-label="Open project"
+                                            className="grid h-9 w-9 place-items-center rounded-full bg-ink text-lime-pop transition-all duration-300 hover:rotate-45 hover:bg-orange-pop hover:text-white">
+                                            <FiArrowUpRight size={15} />
+                                        </a>
+                                    )}
                                 </div>
-                            </a>
-                        );
-                    })}
+                            </div>
+
+                            <h3 className="font-display text-base font-extrabold uppercase leading-snug tracking-tight text-ink transition-colors duration-200 group-hover:text-orange-pop">
+                                {title}
+                            </h3>
+                            <p className="mt-2 hidden text-sm leading-relaxed text-ink-soft md:block">
+                                {description}
+                            </p>
+
+                            <div className="mt-auto flex flex-wrap gap-2 pt-4">
+                                {techs.map((tech) => (
+                                    <span key={tech}
+                                        className="rounded-full border border-ink/10 bg-cream px-2.5 py-1 font-mono text-[9px] uppercase tracking-wider text-ink/55">
+                                        {tech}
+                                    </span>
+                                ))}
+                            </div>
+                        </article>
+                    ))}
                 </div>
             )}
-        </div>
+        </section>
     );
 }
 

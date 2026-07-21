@@ -1,104 +1,95 @@
-import React, {useEffect, useState, useContext} from 'react';
-import { AppBar, HomePage, Work, Contact, Experience, Certification, ResumeButton } from './components';
+import React, { useContext, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+import { AppBar, HomePage, Featured, Work, Contact, Experience, Certification, BlogTeaser, ResumeButton } from './components';
 
 import { FaGithub, FaTwitter, FaInstagram, FaLinkedinIn } from "react-icons/fa";
 import { UserContext } from './contexts/UserContext';
 
 function LandingPage() {
 
-  const {myData} = useContext(UserContext);
-  
-  let lastYOffset = 0;
-  const [scrollUp, setScrollUp] = useState(true);
-  const [scrollZero, setScrollZero] = useState(true);
-  
-  const onScroll = (event) => {
-    
-    const yoff = window.pageYOffset;
-    
-    if (yoff === 0){
-      setScrollUp(true);
-      setScrollZero(true);
-      lastYOffset = 0;
-    }else{
-      setScrollZero(false);
-      if (yoff > lastYOffset){
-        setScrollUp(false);
-        lastYOffset = window.pageYOffset;
-      }else{
-        setScrollUp(true);
-        lastYOffset = window.pageYOffset;
-      }
-    }
+  const { myData } = useContext(UserContext);
+  const location = useLocation();
 
-  }
-
+  // Handle "scroll to section" requests coming from other routes (e.g. /blog).
   useEffect(() => {
-    window.addEventListener('scroll', onScroll, true);
+    const target = location.state?.scrollTo;
+    if (target) {
+      const timer = setTimeout(() => {
+        const el = document.getElementById(target);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+        window.history.replaceState({}, document.title);
+      }, 150);
+      return () => clearTimeout(timer);
+    }
+  }, [location.state]);
 
-    // Remove the event listener
-    return () => {
-      window.removeEventListener('scroll', onScroll, true);
-    };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const socials = [
+    { icon: <FaGithub size={17} />, url: myData?.github, label: "GitHub" },
+    { icon: <FaLinkedinIn size={17} />, url: myData?.linkedin, label: "LinkedIn" },
+    { icon: <FaTwitter size={17} />, url: myData?.twitter, label: "Twitter" },
+    { icon: <FaInstagram size={17} />, url: myData?.instagram, label: "Instagram" },
+  ];
 
   return (
-    <div onScroll={onScroll} className="flex flex-col bg-light-1 px-4 md:px-20 items-center scroll-smooth gap-6">
-      <div className="flex flex-col w-full items-center justify-center md:min-h-screen px-0 md:px-12 pt-24 md:pt-4">
-        <AppBar scrolldown={!scrollUp} scrollZero={scrollZero}/>
-        <ResumeButton/>
-        <HomePage/>
-      </div>
-      <Work/>
-      <Experience/>
-      <Certification/>
-      <Contact/>
-      
-      <div className='flex flex-col items-center'>
-        <div className="flex flex-col md:flex-row justify-center items-center gap-2 md:gap-6">
-          <a className="text-md text-darker-2 font-medium" href='mailto:surafel.mulaw@gmail.com'>
-            {`surafelkindu01@gmail.com`}
-          </a>
-          <div className="text-md text-darker-2 font-medium">
-            {`+2519 86 214 242`}
+    <div className="relative min-h-screen overflow-x-clip bg-cream font-body text-ink">
+
+      <AppBar />
+      <ResumeButton />
+
+      <main className="mx-auto flex w-full max-w-6xl flex-col gap-24 px-4 pb-16 md:gap-36 md:px-8">
+        <HomePage />
+        <Featured />
+        <Work />
+        <Experience />
+        <Certification />
+        <BlogTeaser />
+        <Contact />
+      </main>
+
+      {/* ---- Footer ---- */}
+      <footer className="border-t border-ink/10">
+        <div className="mx-auto flex w-full max-w-6xl flex-col items-center justify-between gap-4 px-4 py-8 md:flex-row md:px-8">
+          <div className="flex items-center gap-2.5">
+            <span className="grid h-8 w-8 place-items-center rounded-lg bg-ink font-display text-sm font-black text-lime-pop">S.</span>
+            <span className="font-display text-[11px] font-bold uppercase tracking-[0.2em] text-ink/60">
+              Surafel Kindu © 2026
+            </span>
           </div>
-          <div className="text-md text-darker-2 font-medium">
-            {`Eritrea St. ${myData?.location}`}
+
+          <div className="flex items-center gap-3">
+            {socials.map((s) => (
+              <a key={s.label} href={`${s.url}`} target="_blank" rel="noreferrer" aria-label={s.label}
+                className="grid h-9 w-9 place-items-center rounded-full border border-ink/10 bg-white text-ink/60 transition-all duration-200 hover:-translate-y-1 hover:bg-ink hover:text-lime-pop">
+                {s.icon}
+              </a>
+            ))}
           </div>
+
+          <span className="font-display text-[11px] font-bold uppercase tracking-[0.2em] text-ink/40">
+            Made with ❤ in Addis Ababa
+          </span>
         </div>
-        <div className="text-darker-2 flex justify-center mb-6 mt-2 text-md">
-          Made with ❤ by <a href={`${myData?.github}`} className="ml-2 text-red-600 font-medium"> Surafel Kindu</a>
-          </div>
+      </footer>
+
+      {/* ---- Left social rail (desktop) ---- */}
+      <div className="fixed bottom-0 left-6 z-40 hidden min-h-screen flex-col items-center justify-center gap-4 xl:flex">
+        <div className="w-px flex-grow bg-gradient-to-t from-transparent to-ink/15"></div>
+        {socials.map((s) => (
+          <a key={s.label} href={`${s.url}`} target="_blank" rel="noreferrer" aria-label={s.label}
+            className="grid h-10 w-10 place-items-center rounded-full border border-ink/10 bg-white text-ink/60 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:bg-ink hover:text-lime-pop">
+            {s.icon}
+          </a>
+        ))}
+        <div className="w-px flex-grow bg-gradient-to-b from-transparent to-ink/15"></div>
       </div>
 
-      <div className="hidden md:flex fixed z-200 bottom-0 left-0 flex-col justify-center items-center px-4 md:px-8 gap-6 min-h-screen">
-        <div className="grow w-0.5 h-full bg-red-500 invisible md:visible md:mt-36 mb-2 bg-gradient-to-t from-slate-500 to-light-1 rounded-full"></div>
-        {/* <div className="visible grow md:invisible"></div> */}
-
-        <a href={`${myData?.github}`} className='w-6 h-6 group'>
-          <FaGithub className='w-6 h-6 text-darker-2 group-hover:text-red-400 duration-300 group-hover:-mt-2'/>
-        </a>
-
-        <a href={`${myData?.instagram}`} className='w-6 h-6 group'>
-          <FaInstagram className='w-6 h-6 text-darker-2 group-hover:text-red-400 duration-300 group-hover:-mt-2'/>
-        </a>
-
-        <a href={`${myData?.linkedin}`} className='w-6 h-6 group'>
-          <FaLinkedinIn className='w-6 h-6 text-darker-2 group-hover:text-red-400 duration-300 group-hover:-mt-2'/>
-        </a>
-
-        <a href={`${myData?.twitter}`} className='w-6 h-6 group'>
-          <FaTwitter className='w-6 h-6 text-darker-2 group-hover:text-red-400 duration-300 group-hover:-mt-2'/>
-        </a>
-
-        <div className="grow"></div>
-      </div>
-
-      <div className="hidden md:flex fixed z-0 bottom-0 right-0 flex-col justify-center items-center px-2 py-4 min-h-screen">
-        <div className="grow"></div>
-        <div className="rounded-full text-slate-500 rotate-90 font-roboto font-bold text-xl tracking-widest"> 2023 </div>
-        <div className="grow w-0.5 h-full invisible md:visible bg-red-500 mt-10 bg-gradient-to-t from-light-1 to-slate-500 opacity-50 rounded-full"></div>
+      {/* ---- Right year rail (desktop) ---- */}
+      <div className="fixed bottom-0 right-6 z-40 hidden min-h-screen flex-col items-center justify-center gap-4 xl:flex">
+        <div className="w-px flex-grow bg-gradient-to-t from-transparent to-ink/15"></div>
+        <span className="rotate-90 font-display text-xs font-bold uppercase tracking-[0.4em] text-ink/40">
+          2026
+        </span>
+        <div className="w-px flex-grow bg-gradient-to-b from-transparent to-ink/15"></div>
       </div>
 
     </div>
