@@ -1,0 +1,11 @@
+services:
+  portfolio:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: surafel-portfolio-web:latest
+    container_name: surafel-portfolio-web
+    restart: unless-stopped
+    ports:
+      # host:container  ->  the VPS nginx proxies to 127.0.0.1:3016
+      - "127.0.0.1:3016:80"
