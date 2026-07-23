@@ -10,10 +10,10 @@ import { fallbackInfo, fallbackSkills } from '../../data/fallback';
 import profileFallback from '../../asset/profile.JPG';
 
 const stats = [
-    { num: "4+", label: "Years of experience" },
-    { num: "12+", label: "Projects shipped" },
-    { num: "2", label: "Own products" },
-    { num: "4", label: "Certifications" },
+    { num: "7+", label: "Years of experience" },
+    { num: "30+", label: "Projects shipped" },
+    { num: "4", label: "Own products" },
+    { num: "4+", label: "Certifications" },
 ];
 
 const roles = [

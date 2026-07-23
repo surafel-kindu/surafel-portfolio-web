@@ -3,12 +3,12 @@
 
 import profile from "../asset/profile.JPG";
 
-import securicom from "../asset/works/securicom.png";
-import lomi3 from "../asset/works/lomi3.png";
-import africrowds from "../asset/works/africrowds.webp";
-import equbapp from "../asset/works/equbapp.webp";
-import chapa from "../asset/works/chapa.webp";
-import tebesa2 from "../asset/works/tebesa2.png";
+import securicom from "../../asset/works/securicom.png";
+import lomi3 from "../../asset/works/lomi3.png";
+import africrowds from "../../asset/works/africrowds.webp";
+import equbapp from "../../asset/works/equbapp.webp";
+import chapa from "../../asset/works/chapa.webp";
+import tebesa2 from "../../asset/works/tebesa2.png";
 
 import worksJson from "../json/works.json";
 
