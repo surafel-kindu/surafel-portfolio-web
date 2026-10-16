@@ -19,7 +19,7 @@ export const fallbackInfo = {
   position1: "Software Engineer",
   position2: "UI/UX Designer",
   statement:
-    "Software Engineer with 8+ years of full-stack experience — I've built web and mobile apps used by 80,000+ people. I turn ideas into products anyone can use.",
+    "Software Engineer at TestSavant.AI with 8+ years of full-stack experience — I've built web and mobile apps used by 80,000+ people. I turn ideas into products anyone can use.",
   profile: profile,
   resume:
     "https://drive.google.com/file/d/1YdgtBKL8E4Z2CPAqwrG8wVhfFskMiMs_/view?usp=sharing",
@@ -36,6 +36,22 @@ export const fallbackInfo = {
 // merged with (and never replaced by) Firestore projects.
 export const currentRoles = [
   {
+    id: "testsavant",
+    primary: true,
+    image: "",
+    name: "TestSavant.AI",
+    shortName: "TestSavant",
+    title: "Software Engineer",
+    link: "https://testsavant.ai/",
+    from: "2025",
+    to: "Present",
+    desc: "Building the AI assurance platform — automated testing, AI red teaming and runtime guardrails for agentic, RAG and chatbot applications.",
+    techs: ["Python", "TypeScript", "AI Assurance"],
+    images: [],
+    techIcons: [],
+    source: "",
+  },
+  {
     id: "afroawi",
     image: "afroawi-2.jpg",
     name: "Afroawi Technologies",
@@ -47,21 +63,6 @@ export const currentRoles = [
     desc: "Co-founded a technology studio building our own products — home of Asili (smart farming advisory) and Halt (modern developer tooling).",
     techs: ["Product", "Engineering", "Strategy"],
     images: ["/images/blog/afroawi-2.jpg"],
-    techIcons: [],
-    source: "",
-  },
-  {
-    id: "testsavant",
-    image: "",
-    name: "TestSavant.AI",
-    shortName: "TestSavant",
-    title: "Software Engineer",
-    link: "https://testsavant.ai/",
-    from: "2025",
-    to: "Present",
-    desc: "Building the AI assurance platform — automated testing, AI red teaming and runtime guardrails for agentic, RAG and chatbot applications.",
-    techs: ["Python", "TypeScript", "AI Assurance"],
-    images: [],
     techIcons: [],
     source: "",
   },

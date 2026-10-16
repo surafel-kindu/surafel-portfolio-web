@@ -1,0 +1,165 @@
+.product-asili .product-visual {
+  background: #edf0e4;
+  color: #0c203a;
+}
+.asili-brand-logo {
+  position: relative;
+  z-index: 2;
+  display: block;
+  width: min(380px, calc(100% - 60px));
+  height: auto;
+  margin: 19px 30px 0;
+}
+.product-asili .asili-landscape {
+  opacity: .19;
+}
+.asili-details-link {
+  white-space: nowrap;
+  padding-top: 5px;
+}
+.studio-dialog-asili {
+  max-width: 900px;
+  padding: 32px;
+}
+.deck-backdrop {
+  backdrop-filter: none;
+  background: #20231fcc;
+}
+.asili-dialog-logo {
+  display: block;
+  width: min(230px, 80%);
+  height: auto;
+  margin-block: 12px;
+}
+.pitch-deck {
+  margin-block: 20px 30px;
+  border: 1px solid #d8ddce;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #f0f2e9;
+}
+.pitch-deck-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 16px 22px;
+}
+.pitch-deck-heading .eyebrow {
+  display: block;
+  font-size: 7px;
+  letter-spacing: 1px;
+  color: #637253;
+}
+.pitch-deck-heading h3 {
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: -.5px;
+  margin-top: 5px;
+  line-height: 1.2;
+}
+.pitch-deck-heading .text-link {
+  font-size: 10px;
+  white-space: nowrap;
+  gap: 8px;
+}
+.pitch-deck-slide {
+  aspect-ratio: 16 / 9;
+  margin: 0;
+  background: #101213;
+}
+.pitch-deck-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  animation: deck-appear .2s ease-out;
+}
+.pitch-deck-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 17px 22px;
+}
+.pitch-deck-position {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+.pitch-deck-position > span {
+  color: #637253;
+  font: 9px 'IBM Plex Mono', monospace;
+}
+.pitch-deck-position strong {
+  font-size: 12px;
+  font-weight: 500;
+}
+.pitch-deck-arrows {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.pitch-deck-arrows button {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid #cbd2bd;
+  border-radius: 50%;
+  transition: background .2s;
+}
+.pitch-deck-arrows button:hover:not(:disabled) {
+  background: #bbd823;
+}
+.pitch-deck-arrows button:disabled {
+  opacity: .3;
+  cursor: default;
+}
+.pitch-deck-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 12px 22px;
+  border-top: 1px solid #d8ddce;
+  color: #637253;
+  font-size: 9px;
+}
+.pitch-deck-footer a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--studio-ink);
+}
+.pitch-deck-footer a:hover {
+  text-decoration: underline;
+}
+@keyframes deck-appear {
+  from { opacity: .5; }
+  to { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pitch-deck-slide img { animation: none; }
+}
+@media (max-width: 650px) {
+  .asili-brand-logo {
+    width: calc(100% - 46px);
+    max-width: 360px;
+    margin: 21px 23px 0;
+  }
+  .asili-details-link { font-size: 10px; gap: 7px; }
+  .studio-dialog-asili { padding: 30px 18px; }
+  .asili-dialog-logo { width: min(230px, 85%); }
+  .pitch-deck { margin-block: 24px 30px; }
+  .pitch-deck-heading { gap: 10px; padding: 16px 13px; }
+  .pitch-deck-heading .eyebrow { font-size: 6px; }
+  .pitch-deck-heading h3 { font-size: 17px; }
+  .pitch-deck-heading .text-link { font-size: 9px; gap: 4px; }
+  .pitch-deck-controls { gap: 10px; padding: 14px 13px; }
+  .pitch-deck-position strong { font-size: 10px; }
+  .pitch-deck-arrows { gap: 6px; }
+  .pitch-deck-arrows button { width: 36px; height: 36px; }
+  .pitch-deck-footer { padding: 12px 13px; gap: 8px; font-size: 8px; }
+}

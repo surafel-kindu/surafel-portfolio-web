@@ -13,10 +13,12 @@ import postsData from './json/posts.json';
 import profile from './asset/profile.JPG';
 import TerminalShowcase from './components/Studio/TerminalShowcase';
 import ProductCard from './components/Studio/ProductCard';
+import PitchDeckViewer from './components/Studio/PitchDeckViewer';
 import { useReducedMotion, useScrollReveal } from './components/Studio/useStudioMotion';
 import './studio.css';
 import './studio-motion.css';
 import './studio-arcade.css';
+import './studio-asili.css';
 const modes = [{
   name: 'Design',
   title: 'Start with the human.',
@@ -112,9 +114,12 @@ function ProductDialog({
       previous?.focus();
     };
   }, [onClose]);
-  return <div className="dialog-backdrop" onClick={onClose}><div ref={panel} className={`studio-dialog studio-dialog-${product.id}`} role="dialog" aria-modal="true" aria-labelledby="dialog-title" onClick={e => e.stopPropagation()}>
+  return <div className={`dialog-backdrop ${product.pitchDeck ? 'deck-backdrop' : ''}`} onClick={onClose}><div ref={panel} className={`studio-dialog studio-dialog-${product.id}`} role="dialog" aria-modal="true" aria-labelledby="dialog-title" onClick={e => e.stopPropagation()}>
     <button className="dialog-close" onClick={onClose} aria-label="Close product details"><FiX /></button>
-    <span className="eyebrow">{product.badge}</span><h2 id="dialog-title">{product.name}</h2><p className="dialog-tagline">{product.tagline}</p>
+    <span className="eyebrow">{product.badge}</span>
+    {product.id === 'asili' && <img className="asili-dialog-logo" src={product.logo} alt="Asili — A pocket agronomist for every farmer" width="597" height="221" />}
+    <h2 id="dialog-title" className={product.id === 'asili' ? 'sr-only' : ''}>{product.name}</h2><p className="dialog-tagline">{product.tagline}</p>
+    {product.pitchDeck && <PitchDeckViewer deck={product.pitchDeck} />}
     {product.id === 'arcade' && <>
       <div className="arcade-dialog-actions"><a className="studio-button" href={product.url} target="_blank" rel="noreferrer">Visit the lab<FiArrowUpRight /></a><a className="text-link" href={product.github} target="_blank" rel="noreferrer"><FiGithub /> View source</a></div>
       <dl className="arcade-facts">{product.stats.map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl>
@@ -186,6 +191,7 @@ export default function LandingPage() {
   const filtered = pastWorks.filter(work => filter === 'All' || (filter === 'Mobile' ? /mobile|flutter|react.native/i.test(`${work.title} ${work.desc} ${work.details} ${work.techs?.join(' ')}`) : /web|front.end|fullstack|full.stack/i.test(`${work.title} ${work.desc} ${work.details} ${work.techs?.join(' ')}`)));
   const shown = expanded ? filtered : filtered.slice(0, 4);
   const latest = postsData.posts[0];
+  const currentRole = currentRoles.find(role => role.primary);
   const email = 'surafel@afroawi.com';
 
   const copyEmail = async () => {
@@ -206,9 +212,9 @@ export default function LandingPage() {
       <section className="studio-hero page-width" id="home">
         <div className="hero-copy"><p className="eyebrow hero-eyebrow"><span className="status-dot" /> ADDIS ABABA, ETHIOPIA <span className="hero-edition">PORTFOLIO — 2026</span></p>
           <h1>Good ideas.<br />Real <span className="impact-word">impact<svg viewBox="0 0 360 24" aria-hidden="true"><path d="M4 15Q161 -3 350 10M19 21Q181 7 338 16" /></svg></span><span className="orange-period">.</span></h1>
-          <p className="hero-intro">I’m Surafel. A software engineer, product designer, and co-founder turning complex problems into things people love to use.</p>
+          <p className="hero-intro">I’m Surafel, a Software Engineer currently at <a className="inline-employer" href={currentRole.link} target="_blank" rel="noreferrer">{currentRole.name}</a>, building tools that help teams test and ship reliable AI applications.</p>
           <div className="button-row"><a className="studio-button" href="#work">Explore my work<FiArrowDownRight /></a><a className="text-link" href="/assets/resume/myresume.pdf" target="_blank" rel="noreferrer">The résumé<FiArrowUpRight /></a></div>
-          <div className="hero-footnote"><span className="mini-avatar"><img src={profile} alt="" /></span><span>Building at <a href="https://afroawi.com/" target="_blank" rel="noreferrer">Afroawi</a> & <a href="https://testsavant.ai/" target="_blank" rel="noreferrer">TestSavant.AI</a><small>A little design. A lot of engineering.</small></span></div>
+          <a className="hero-footnote current-employer" href={currentRole.link} target="_blank" rel="noreferrer"><span className="mini-avatar"><img src={profile} alt="" /></span><span className="current-employer-copy"><span className="current-employer-label"><span className="status-dot" /> CURRENTLY WORKING AT</span><strong>{currentRole.name}</strong><small>{currentRole.title} · {currentRole.from} — Present</small></span><FiArrowUpRight className="current-employer-arrow" /></a>
         </div><Workbench motionPaused={motionPaused} onToggleMotion={toggleMotion} />
       </section>
       <div className="credibility page-width"><p>THOUGHTFUL DESIGN.<br /><span>PROVEN IN THE REAL WORLD.</span></p><div><strong>8+</strong><span>years building</span></div><div><strong>80k+</strong><span>people reached</span></div><div className="credibility-note">From better payments<br />to smarter farming.<span>ALWAYS PEOPLE FIRST. <FiArrowUpRight /></span></div></div>
@@ -224,7 +230,7 @@ export default function LandingPage() {
           }} className="work-row"><span className="work-number">{String(i + products.length + 1).padStart(2, "0")}</span><div><h3>{work.shortName || work.name}</h3><p>{work.title}</p></div><span className="work-tech">{work.techs?.slice(0, 2).join(' / ')}</span><span className="work-year">{work.from?.match(/\d{4}/)?.[0]}</span><FiArrowUpRight /></Link>)}</div>
         {filtered.length > 4 && <button className="expand-work text-link" onClick={() => setExpanded(!expanded)}>{expanded ? 'Show less' : 'Explore all work'}{expanded ? <FiMinus /> : <FiPlus />}</button>}
       </section>
-      <section className="about-section" id="about"><div className="page-width about-grid" data-reveal><div className="portrait-wrap"><img src={profile} alt="Surafel Kindu" loading="lazy" /><span className="portrait-label">THE HUMAN BEHIND THE CODE.</span><span className="portrait-star" aria-hidden="true">✳</span></div><div className="about-copy"><p className="eyebrow">02 / A LITTLE ABOUT ME</p><h2>Curious mind.<br />Builder at heart.</h2><p>I work where design meets engineering. For me, the best products make something complicated feel simple — and make someone’s day a little better.</p><p>Based in Addis Ababa, I build web and mobile experiences, co-found products at Afroawi, and work on AI assurance at TestSavant.</p><div className="current-roles">{currentRoles.map(role => <a key={role.id} href={role.link} target="_blank" rel="noreferrer"><div><span>{role.title}</span><strong>{role.name}</strong></div><span>{role.from} — NOW</span><FiArrowUpRight /></a>)}</div><a className="text-link" href="/assets/resume/myresume.pdf" target="_blank" rel="noreferrer">A closer look at my journey<FiArrowUpRight /></a></div></div><div className="page-width toolbox"><span className="eyebrow">TOOLS I THINK WITH</span><div>{skills.map(skill => <span key={skill.id}>{skill.title}</span>)}</div></div></section>
+      <section className="about-section" id="about"><div className="page-width about-grid" data-reveal><div className="portrait-wrap"><img src={profile} alt="Surafel Kindu" loading="lazy" /><span className="portrait-label">THE HUMAN BEHIND THE CODE.</span><span className="portrait-star" aria-hidden="true">✳</span></div><div className="about-copy"><p className="eyebrow">02 / A LITTLE ABOUT ME</p><h2>Curious mind.<br />Builder at heart.</h2><p>I work where design meets engineering. For me, the best products make something complicated feel simple — and make someone’s day a little better.</p><p>I’m currently a Software Engineer at TestSavant.AI, working on AI assurance for agentic, RAG, and chatbot applications. Based in Addis Ababa, I also co-found products at Afroawi.</p><div className="current-roles">{currentRoles.map(role => <a key={role.id} className={role.primary ? "role-primary" : ""} href={role.link} target="_blank" rel="noreferrer"><div><span>{role.primary ? "Current role · " : ""}{role.title}</span><strong>{role.name}</strong></div><span>{role.from} — NOW</span><FiArrowUpRight /></a>)}</div><a className="text-link" href="/assets/resume/myresume.pdf" target="_blank" rel="noreferrer">A closer look at my journey<FiArrowUpRight /></a></div></div><div className="page-width toolbox"><span className="eyebrow">TOOLS I THINK WITH</span><div>{skills.map(skill => <span key={skill.id}>{skill.title}</span>)}</div></div></section>
       <section className="lab-section" id="projects"><div className="page-width"><SectionHeading number="03" label="THE EXPERIMENT CORNER" title={<>Stay curious.<br />Keep making.</>}><a className="text-link" href={myData.github} target="_blank" rel="noreferrer">Find me on GitHub<FiGithub /></a></SectionHeading><div className="lab-grid" data-reveal>{otherworks.otherworks.map((project, i) => <article key={project.id}><span className="lab-number">EXPERIMENT / 0{i + 1}{project.role && <span className="lab-role">{project.role}</span>}</span><h3>{project.title}</h3><p>{project.id === 1 ? 'A web interface for detecting hate speech in Amharic Twitter posts.' : project.id === 3 ? 'An app for discovering, posting, and registering for events. Currently in progress.' : project.description}</p><div className="lab-bottom"><span>{project.techs.slice(0, 2).join(' + ')}</span><a href={project.link} target={project.link.startsWith('/') ? '_self' : '_blank'} rel="noreferrer" aria-label={`Explore ${project.title}`}><FiArrowUpRight /></a>{project.github && <a href={project.github} target="_blank" rel="noreferrer" aria-label={`${project.title} source code`}><FiGithub /></a>}</div></article>)}</div></div></section>
       <TerminalShowcase reduced={reduced} motionPaused={motionPaused} onToggleMotion={toggleMotion} />
       <section className="learning-section page-width" id="certificates"><SectionHeading number="05" label="ALWAYS LEARNING" title="A work in progress." /><div className="certificate-grid" data-reveal>{certifications.certificates.map(cert => <a key={cert.id} href={cert.link} target="_blank" rel="noreferrer"><span>{cert.org.join(' / ')}</span><h3>{cert.name}</h3><div>{cert.date}<FiArrowUpRight /></div></a>)}</div></section>

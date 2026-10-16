@@ -7,6 +7,24 @@ export const products = [{
   badge: "AgriTech · AI",
   theme: "lime",
   url: "https://asili.afroawi.com/",
+  logo: "/images/products/asili/logo-side.png",
+  pitchDeck: {
+    title: "Asili pitch deck",
+    url: "/assets/decks/asili-pitch-deck-2026.pdf",
+    slides: [
+      { title: "Smart Farming Reimagined", alt: "Asili 2026 proposal: an offline-first AI agronomist in every smallholder farmer’s pocket.", src: "/images/products/asili/deck/slide-01.webp" },
+      { title: "The Smallholder Challenge", alt: "The smallholder challenge: limited agronomic advice, climate uncertainty, and connectivity barriers.", src: "/images/products/asili/deck/slide-02.webp" },
+      { title: "Expert Agronomist in Every Pocket", alt: "Three pillars of Asili: offline-first design, conversational AI, and guided seasons.", src: "/images/products/asili/deck/slide-03.webp" },
+      { title: "Smart Advisory Features", alt: "Product features: daily weather and task briefings, AI advice, field mapping, and IoT telemetry.", src: "/images/products/asili/deck/slide-04.webp" },
+      { title: "Guided Farm Season Workflow", alt: "The farm season workflow: setup and mapping, growth-stage tracking, daily actions, and harvest logs.", src: "/images/products/asili/deck/slide-05.webp" },
+      { title: "AI & On-Device Vision", alt: "Cloud and client intelligence, with on-device crop leaf diagnostics using TensorFlow.js and MobileNet.", src: "/images/products/asili/deck/slide-06.webp" },
+      { title: "Low-Bandwidth Architecture", alt: "Architecture: installable PWA, local IndexedDB storage, Django backend, and web push notifications.", src: "/images/products/asili/deck/slide-07.webp" },
+      { title: "Field Mapping & IoT Sensors", alt: "Satellite field boundaries, crop and stage mapping, soil moisture sensors, and hyper-local weather.", src: "/images/products/asili/deck/slide-08.webp" },
+      { title: "Transforming Rural Yields", alt: "Asili’s proposed impact: a target yield increase of 35 percent or more and expanded extension-agent capacity.", src: "/images/products/asili/deck/slide-09.webp" },
+      { title: "Strategic Growth Roadmap", alt: "Roadmap: Ethiopia pilot, local-language and voice support, a cooperative portal, then East Africa expansion.", src: "/images/products/asili/deck/slide-10.webp" },
+      { title: "Building Resilient Climate Agriculture", alt: "Invitation to join Asili in delivering offline AI agronomy to smallholder farmers.", src: "/images/products/asili/deck/slide-11.webp" }
+    ]
+  },
   desc: "A pocket agronomist for every farmer — daily, local farming advice that works on any phone, even offline. Map your fields, connect soil & weather sensors, and ask an AI advisor anything.",
   longDesc: ["Asili gives every farmer daily, local farming advice that works on any phone — even offline. Open it in the morning and it greets you with a briefing tuned to your exact field: what your land is telling you today, what to watch for, and what to do next.", "From protecting teff from waterlogging in kiremt to connecting soil and weather sensors, Asili turns agronomy into clear, ranked answers — no jargon, no waiting for an extension officer who serves a whole district."],
   stats: [["Focus", "AgriTech & AI"], ["Platform", "Web & Mobile"], ["Built for", "Every farmer"]],

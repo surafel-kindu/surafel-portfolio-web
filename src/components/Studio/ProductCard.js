@@ -1,9 +1,9 @@
 import { FiArrowUpRight } from 'react-icons/fi';
 
-function AsiliArtwork() {
+function AsiliArtwork({ product }) {
   return <>
     <div className="asili-landscape"><svg viewBox="0 0 460 220" aria-hidden="true"><g fill="none" stroke="currentColor" strokeWidth="1.15">{Array.from({ length: 14 }, (_, index) => <path key={index} d={`M-20 ${95 + index * 12} Q95 ${5 + index * 8} 230 ${110 + index * 7} T500 ${110 + index * 11}`} />)}</g><circle cx="355" cy="43" r="20" fill="#e7683e" /></svg></div>
-    <span className="product-wordmark">asili<span>✳</span></span>
+    <img className="asili-brand-logo" src={product.logo} alt="Asili — A pocket agronomist for every farmer" width="597" height="221" loading="lazy" />
     <div className="product-visual-bottom"><span>GROW WITH CONFIDENCE.</span><span>01 — WEB & MOBILE</span></div>
   </>;
 }
@@ -39,11 +39,11 @@ export default function ProductCard({ product, onSelect }) {
   return <article className={`studio-product product-${product.id}`} data-reveal>
     <button className="product-visual" onClick={() => onSelect(product)} aria-label={`Explore ${product.name}`}>
       {!arcade && <div className="product-visual-top"><span>AFROAWI / {product.category}</span><FiArrowUpRight /></div>}
-      {arcade ? <ArcadeArtwork product={product} /> : product.id === 'asili' ? <AsiliArtwork /> : <HaltArtwork />}
+      {arcade ? <ArcadeArtwork product={product} /> : product.id === 'asili' ? <AsiliArtwork product={product} /> : <HaltArtwork />}
     </button>
     <div className="product-caption"><div><h3>{product.name}<span>{product.tagline}</span></h3><p>{product.previewDescription}</p></div>
       <div className="product-caption-actions">{arcade && <a className="text-link arcade-visit-link" href={product.url} target="_blank" rel="noreferrer">Visit the lab<FiArrowUpRight /></a>}
-        <button aria-label={`View ${product.name} details`} onClick={() => onSelect(product)} className="circle-link"><FiArrowUpRight /></button>
+        <button aria-label={product.pitchDeck ? `View deck and ${product.name} details` : `View ${product.name} details`} onClick={() => onSelect(product)} className={product.pitchDeck ? 'text-link asili-details-link' : 'circle-link'}>{product.pitchDeck && 'View deck'}<FiArrowUpRight /></button>
       </div>
     </div>
   </article>;

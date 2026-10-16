@@ -17,8 +17,8 @@ const stats = [
 ];
 
 const roles = [
-    { label: "Co-Founder", org: "Afroawi", url: "https://afroawi.com/", dark: true, dot: "bg-lime-pop" },
-    { label: "Software Engineer", org: "TestSavant", url: "https://testsavant.ai/", dark: false, dot: "bg-violet-pop" },
+    { label: "Current role · Software Engineer", org: "TestSavant.AI", url: "https://testsavant.ai/", dark: true, dot: "bg-lime-pop" },
+    { label: "Co-Founder", org: "Afroawi", url: "https://afroawi.com/", dark: false, dot: "bg-violet-pop" },
 ];
 
 function HomePage() {
