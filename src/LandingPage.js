@@ -12,9 +12,11 @@ import certifications from './json/certifications.json';
 import postsData from './json/posts.json';
 import profile from './asset/profile.JPG';
 import TerminalShowcase from './components/Studio/TerminalShowcase';
+import ProductCard from './components/Studio/ProductCard';
 import { useReducedMotion, useScrollReveal } from './components/Studio/useStudioMotion';
 import './studio.css';
 import './studio-motion.css';
+import './studio-arcade.css';
 const modes = [{
   name: 'Design',
   title: 'Start with the human.',
@@ -110,10 +112,14 @@ function ProductDialog({
       previous?.focus();
     };
   }, [onClose]);
-  return <div className="dialog-backdrop" onClick={onClose}><div ref={panel} className="studio-dialog" role="dialog" aria-modal="true" aria-labelledby="dialog-title" onClick={e => e.stopPropagation()}>
+  return <div className="dialog-backdrop" onClick={onClose}><div ref={panel} className={`studio-dialog studio-dialog-${product.id}`} role="dialog" aria-modal="true" aria-labelledby="dialog-title" onClick={e => e.stopPropagation()}>
     <button className="dialog-close" onClick={onClose} aria-label="Close product details"><FiX /></button>
     <span className="eyebrow">{product.badge}</span><h2 id="dialog-title">{product.name}</h2><p className="dialog-tagline">{product.tagline}</p>
-    <div className="dialog-gallery">{product.gallery.map(img => <img key={img.src} src={img.src} alt={img.caption} loading="lazy" />)}</div>
+    {product.id === 'arcade' && <>
+      <div className="arcade-dialog-actions"><a className="studio-button" href={product.url} target="_blank" rel="noreferrer">Visit the lab<FiArrowUpRight /></a><a className="text-link" href={product.github} target="_blank" rel="noreferrer"><FiGithub /> View source</a></div>
+      <dl className="arcade-facts">{product.stats.map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl>
+    </>}
+    <div className={`dialog-gallery ${product.id === 'arcade' ? 'arcade-dialog-gallery' : ''}`}>{product.gallery.map(img => product.id === 'arcade' ? <figure key={img.src}><a href={img.src} target="_blank" rel="noreferrer" aria-label={`Open full-size image: ${img.caption}`}><img src={img.src} alt={img.caption} loading="lazy" /></a><figcaption>{img.caption}</figcaption></figure> : <img key={img.src} src={img.src} alt={img.caption} loading="lazy" />)}</div>
     {product.longDesc.map(text => <p key={text}>{text}</p>)}
     <ul className="product-features">{product.features.map(item => <li key={item}><FiCheck />{item}</li>)}</ul>
     {product.code && <pre>{product.code}</pre>}
@@ -208,21 +214,14 @@ export default function LandingPage() {
       <div className="credibility page-width"><p>THOUGHTFUL DESIGN.<br /><span>PROVEN IN THE REAL WORLD.</span></p><div><strong>8+</strong><span>years building</span></div><div><strong>80k+</strong><span>people reached</span></div><div className="credibility-note">From better payments<br />to smarter farming.<span>ALWAYS PEOPLE FIRST. <FiArrowUpRight /></span></div></div>
       <section className="selected-section page-width" id="work">
         <SectionHeading number="01" label="SELECTED WORK" title={<>Small details.<br />Big possibilities.</>}><p>From the first sketch to the last commit.<br />A few things I’ve helped bring to life.</p></SectionHeading>
-        <div id="products" className="product-grid">{products.map((product, i) => <article key={product.id} className={`studio-product product-${product.id}`} data-reveal>
-          <button className="product-visual" onClick={() => setActive(product)} aria-label={`Explore ${product.name}`}>
-            <div className="product-visual-top"><span>AFROAWI / {i === 0 ? 'AGRITECH' : 'DEVELOPER TOOLS'}</span><FiArrowUpRight /></div>
-            {i === 0 ? <><div className="asili-landscape"><svg viewBox="0 0 460 220" aria-hidden="true"><g fill="none" stroke="currentColor" strokeWidth="1.15">{Array.from({
-                        length: 14
-                      }, (_, j) => <path key={j} d={`M-20 ${95 + j * 12} Q95 ${5 + j * 8} 230 ${110 + j * 7} T500 ${110 + j * 11}`} />)}</g><circle cx="355" cy="43" r="20" fill="#e7683e" /></svg></div><span className="product-wordmark">asili<span>✳</span></span><div className="product-visual-bottom"><span>GROW WITH CONFIDENCE.</span><span>01 — WEB & MOBILE</span></div></> : <><div className="halt-orbits"><span /><span /><span /><i>↳</i></div><span className="product-wordmark">halt<span className="halt-dot">.</span></span><div className="terminal-caption"><span className="terminal-dot" /> $ pip install halt-rate <span>↵</span></div><div className="product-visual-bottom"><span>ONE POLICY. ANY STACK.</span><span>02 — OPEN SOURCE</span></div></>}
-          </button><div className="product-caption"><div><h3>{product.name}<span>{product.tagline}</span></h3><p>{i === 0 ? 'Daily, local farming advice. A pocket agronomist that puts farmers first.' : 'Thoughtful rate limiting for APIs. Safe defaults, built for Python and TypeScript.'}</p></div><button aria-label={`View ${product.name} details`} onClick={() => setActive(product)} className="circle-link"><FiArrowUpRight /></button></div>
-        </article>)}</div>
+        <div id="products" className="product-grid">{products.map(product => <ProductCard key={product.id} product={product} onSelect={setActive} />)}</div>
         <div className="work-index-header"><span className="eyebrow">MORE IN THE FIELD</span><div className="filter-tabs" role="group" aria-label="Filter work">{['All', 'Web', 'Mobile'].map(item => <button key={item} aria-pressed={filter === item} onClick={() => {
               setFilter(item);
               setExpanded(false);
             }}>{item}</button>)}</div></div>
         <div className="work-index">{shown.map((work, i) => <Link key={work.id} to={`/work/${work.id}`} state={{
             work
-          }} className="work-row"><span className="work-number">0{i + 3}</span><div><h3>{work.shortName || work.name}</h3><p>{work.title}</p></div><span className="work-tech">{work.techs?.slice(0, 2).join(' / ')}</span><span className="work-year">{work.from?.match(/\d{4}/)?.[0]}</span><FiArrowUpRight /></Link>)}</div>
+          }} className="work-row"><span className="work-number">{String(i + products.length + 1).padStart(2, "0")}</span><div><h3>{work.shortName || work.name}</h3><p>{work.title}</p></div><span className="work-tech">{work.techs?.slice(0, 2).join(' / ')}</span><span className="work-year">{work.from?.match(/\d{4}/)?.[0]}</span><FiArrowUpRight /></Link>)}</div>
         {filtered.length > 4 && <button className="expand-work text-link" onClick={() => setExpanded(!expanded)}>{expanded ? 'Show less' : 'Explore all work'}{expanded ? <FiMinus /> : <FiPlus />}</button>}
       </section>
       <section className="about-section" id="about"><div className="page-width about-grid" data-reveal><div className="portrait-wrap"><img src={profile} alt="Surafel Kindu" loading="lazy" /><span className="portrait-label">THE HUMAN BEHIND THE CODE.</span><span className="portrait-star" aria-hidden="true">✳</span></div><div className="about-copy"><p className="eyebrow">02 / A LITTLE ABOUT ME</p><h2>Curious mind.<br />Builder at heart.</h2><p>I work where design meets engineering. For me, the best products make something complicated feel simple — and make someone’s day a little better.</p><p>Based in Addis Ababa, I build web and mobile experiences, co-found products at Afroawi, and work on AI assurance at TestSavant.</p><div className="current-roles">{currentRoles.map(role => <a key={role.id} href={role.link} target="_blank" rel="noreferrer"><div><span>{role.title}</span><strong>{role.name}</strong></div><span>{role.from} — NOW</span><FiArrowUpRight /></a>)}</div><a className="text-link" href="/assets/resume/myresume.pdf" target="_blank" rel="noreferrer">A closer look at my journey<FiArrowUpRight /></a></div></div><div className="page-width toolbox"><span className="eyebrow">TOOLS I THINK WITH</span><div>{skills.map(skill => <span key={skill.id}>{skill.title}</span>)}</div></div></section>
