@@ -10,7 +10,7 @@ import { fallbackInfo, fallbackSkills } from '../../data/fallback';
 import profileFallback from '../../asset/profile.JPG';
 
 const stats = [
-    { num: "7+", label: "Years of experience" },
+    { num: "8+", label: "Years of experience" },
     { num: "30+", label: "Projects shipped" },
     { num: "4", label: "Own products" },
     { num: "4+", label: "Certifications" },
@@ -105,7 +105,7 @@ function HomePage() {
                             </span>
                         </a>
                         <div className="flex items-center gap-3">
-                            <span className="font-display text-3xl font-black text-ink md:text-4xl">4+</span>
+                            <span className="font-display text-3xl font-black text-ink md:text-4xl">8+</span>
                             <span className="text-[10px] font-display font-bold uppercase leading-tight tracking-[0.2em] text-ink/50">
                                 Years of<br />experience
                             </span>
@@ -147,7 +147,7 @@ function HomePage() {
                                 <FiZap size={15} />
                             </span>
                             <span className="leading-tight">
-                                <span className="block font-display text-sm font-black text-ink">4+ yrs</span>
+                                <span className="block font-display text-sm font-black text-ink">8+ yrs</span>
                                 <span className="block text-[9px] font-bold uppercase tracking-widest text-ink/50">experience</span>
                             </span>
                         </div>

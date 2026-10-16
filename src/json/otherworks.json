@@ -1,57 +1,83 @@
 {
-    "otherworks": [
-        {
-            "id":0,
-            "title": "Piassa Dating Mobile Application",
-            "description": "A dating mobile application with more than 1,000 active users.",
-            "link": "https://play.google.com/store/apps/details?id=com.piassa",
-            "github": "https://github.com/Surafeljava/piassa_date",
-            "techs": [
-                "Flutter",
-                "Firebase"
-            ]
-        },
-        {
-            "id":1,
-            "title": "Amharic Sentiment Analysis Hate Speech Detection System",
-            "description": "The scope of this project is limited to the presence or absence of hate speech on Amharic language Twitter posts. In this...",
-            "link": "/amh-nlp",
-            "github": "https://github.com/Amharic-Sentiment-Analysis/Amharic-Sentiment-Analysis-Frontend",
-            "techs": [
-                "Reactjs",
-                "Material UI",
-                "Node.js",
-                "Express",
-                "Tensorflow",
-                "Keras",
-                "Flask"
-            ]
-        },
-        {
-            "id":2,
-            "title": "YNCCC Paper Collectors Mobile Application",
-            "description": "Youth Negotiations on Climate Change Conventions (YNCCC) - paper recycling mobile application for YNCCC members.",
-            "link": "https://play.google.com/store/apps/details?id=com.ynccc.collector.app",
-            "github": "https://github.com/Surafeljava/yncccPaperCollectorApp",
-            "techs": [
-                "Flutter",
-                "Firebase",
-                "Adobe XD"
-            ]
-        },
-        {
-            "id":3,
-            "title": "Tikus Events Mobile Application (in-progress)",
-            "description": "Event posting and registering app. Users Login and Create their profile, they can Create, Update, Delete events...",
-            "link": "https://github.com/Surafeljava/tikus-events",
-            "github": "https://github.com/Surafeljava/tikus_events_api",
-            "techs": [
-                "Flutter",
-                "Flask",
-                "Postgre-SQL",
-                "Adobe XD"
-            ]
-        }
-        
-    ]
+  "otherworks": [
+    {
+      "id": 4,
+      "title": "System 1 Games",
+      "description": "A five-game arena for comparing small decision models across 2048, Chess, Dino Run, Flappy Bird, and Sudoku, with browser play, benchmarks, and decision traces.",
+      "link": "https://github.com/surafel-kindu/system-one-models-game-test",
+      "github": "https://github.com/surafel-kindu/system-one-models-game-test",
+      "techs": [
+        "Python",
+        "JavaScript",
+        "AI Evaluation"
+      ],
+      "role": "Creator"
+    },
+    {
+      "id": 5,
+      "title": "Morse Transfer",
+      "description": "Messages and files over sound and light: Morse audio and looping QR codes, processed entirely in the browser.",
+      "link": "https://github.com/surafel-kindu/morse-ping",
+      "github": "https://github.com/surafel-kindu/morse-ping",
+      "techs": [
+        "React",
+        "Vite",
+        "Web Audio",
+        "QR Codes"
+      ],
+      "role": "Creator"
+    },
+    {
+      "id": 0,
+      "title": "Piassa Dating Mobile Application",
+      "description": "A dating mobile application with more than 1,000 active users.",
+      "link": "https://play.google.com/store/apps/details?id=com.piassa",
+      "github": "https://github.com/Surafeljava/piassa_date",
+      "techs": [
+        "Flutter",
+        "Firebase"
+      ]
+    },
+    {
+      "id": 1,
+      "title": "Amharic Sentiment Analysis Hate Speech Detection System",
+      "description": "The scope of this project is limited to the presence or absence of hate speech on Amharic language Twitter posts. In this...",
+      "link": "/amh-nlp",
+      "github": "https://github.com/Amharic-Sentiment-Analysis/Amharic-Sentiment-Analysis-Frontend",
+      "techs": [
+        "Reactjs",
+        "Material UI",
+        "Node.js",
+        "Express",
+        "Tensorflow",
+        "Keras",
+        "Flask"
+      ]
+    },
+    {
+      "id": 2,
+      "title": "YNCCC Paper Collectors Mobile Application",
+      "description": "Youth Negotiations on Climate Change Conventions (YNCCC) - paper recycling mobile application for YNCCC members.",
+      "link": "https://play.google.com/store/apps/details?id=com.ynccc.collector.app",
+      "github": "https://github.com/Surafeljava/yncccPaperCollectorApp",
+      "techs": [
+        "Flutter",
+        "Firebase",
+        "Adobe XD"
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Tikus Events Mobile Application (in-progress)",
+      "description": "Event posting and registering app. Users Login and Create their profile, they can Create, Update, Delete events...",
+      "link": "https://github.com/Surafeljava/tikus-events",
+      "github": "https://github.com/Surafeljava/tikus_events_api",
+      "techs": [
+        "Flutter",
+        "Flask",
+        "Postgre-SQL",
+        "Adobe XD"
+      ]
+    }
+  ]
 }

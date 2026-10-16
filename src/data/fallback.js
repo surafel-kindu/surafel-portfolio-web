@@ -19,7 +19,7 @@ export const fallbackInfo = {
   position1: "Software Engineer",
   position2: "UI/UX Designer",
   statement:
-    "Software Engineer with 4+ years of full-stack experience — I've built web and mobile apps used by 80,000+ people. I turn ideas into products anyone can use.",
+    "Software Engineer with 8+ years of full-stack experience — I've built web and mobile apps used by 80,000+ people. I turn ideas into products anyone can use.",
   profile: profile,
   resume:
     "https://drive.google.com/file/d/1YdgtBKL8E4Z2CPAqwrG8wVhfFskMiMs_/view?usp=sharing",
