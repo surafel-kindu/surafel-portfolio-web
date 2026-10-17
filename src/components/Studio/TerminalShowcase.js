@@ -30,7 +30,7 @@ function BuildBoard({ result }) {
   const completed = tasks.filter(task => task.done).length;
   const progress = Math.round(completed / tasks.length * 100);
   return <div className="build-board">
-    <div className="result-app-header"><span className="board-brand">sk<span>✳</span></span><span>THE BUILD BOARD</span><span className="board-avatar">S</span></div>
+    <div className="result-app-header"><span className="board-brand">sk</span><span>THE BUILD BOARD</span><span className="board-avatar">S</span></div>
     <p className="eyebrow">A GOOD IDEA, IN MOTION.</p><h4>Make something<br />you’re proud of.</h4>
     <div className="board-progress"><span>{completed} of {tasks.length} steps complete</span><strong>{progress}%</strong><div><i style={{ width: `${progress}%` }} /></div></div>
     <div className="board-tasks">{tasks.map((task, index) => <button key={task.title} aria-pressed={task.done} onClick={() => setTasks(previous => previous.map((item, i) => i === index ? { ...item, done: !item.done } : item))}><span className={`task-check ${task.done ? 'checked' : ''}`}>{task.done && <FiCheck />}</span><span>{task.title}</span><span className="task-number">0{index + 1}</span></button>)}</div>

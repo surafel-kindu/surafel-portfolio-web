@@ -718,15 +718,7 @@
   font-size: 8px;
   letter-spacing: 1px;
 }
-.portrait-star {
-  position: absolute;
-  font-size: 125px;
-  line-height: 1;
-  color: var(--accent);
-  right: -44px;
-  bottom: 0;
-  font-family: Arial,sans-serif;
-}
+
 .about-copy .eyebrow {
   margin-bottom: 18px;
 }
@@ -1344,10 +1336,7 @@
 .portrait-wrap>img {
     height: 385px;
   }
-.portrait-star {
-    font-size: 95px;
-    right: -29px;
-  }
+
 .about-section {
     padding-top: 65px;
   }
@@ -1630,9 +1619,7 @@
 .portrait-wrap>img {
     height: 390px;
   }
-.portrait-star {
-    right: -20px;
-  }
+
 .about-copy>p:not(.eyebrow) {
     font-size: 13px;
   }

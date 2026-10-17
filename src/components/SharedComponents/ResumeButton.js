@@ -7,7 +7,7 @@ function ResumeButton() {
                 My Resume
             </span>
             <a
-                href="https://drive.google.com/file/d/1YdgtBKL8E4Z2CPAqwrG8wVhfFskMiMs_/view?usp=sharing"
+                href="/assets/resume/myresume.pdf"
                 target="_blank"
                 rel="noreferrer"
                 aria-label="Resume"

@@ -1,71 +1,15 @@
-import React, { useState } from 'react';
-import { Document, Page, pdfjs } from 'react-pdf';
+import { Link } from 'react-router-dom';
+import { FiArrowLeft, FiArrowUpRight, FiDownload } from 'react-icons/fi';
+import AppBar from '../SharedComponents/AppBar';
+import '../../studio.css';
+import '../../studio-profile.css';
 
-// import myResume from "../../asset/cv/myresume.pdf";
+const resume = '/assets/resume/myresume.pdf';
 
-// import myresume from "../../asset/cv/myresume.pdf";
-
-
-function ResumePage() {
-
-    const [loading, setLoading] = useState(true);
-    const [hasError, setHasError] = useState(false);
-
-    function onDocumentLoadSuccess({ numPages }) {
-        setLoading(false);
-    }
-    
-    function onDocumentLoadError(e){
-        console.log(e);
-        setLoading(false);
-        setHasError(true);
-    }
-
-
-    if(!loading && hasError){
-        return (
-            <div className="flex min-h-screen items-center justify-center">
-                <div className="text-2xl font-roboto font-thin text-red-500">
-                    Error while loading my resume!
-                </div>
-            </div>
-        );
-    }
-
-    pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
-
-    return (
-        <div>
-            <Document file="../../asset/cv/myresume.pdf"
-            loading = {() => {
-               return (<div className="flex min-h-screen items-center justify-center">
-                    <div class="rounded-md p-4 max-w-sm w-full mx-auto flex flex-col gap-4 items-center">
-                        <div className="text-2xl font-roboto font-thin">
-                            Opening My CV
-                        </div>
-                        <div class="animate-pulse flex space-x-4">
-                            <div class="rounded-full bg-slate-300 h-14 w-14"></div>
-                            <div class="flex-1 space-y-6 py-1">
-                            <div class="h-4 w-20 bg-slate-300 rounded-full"></div>
-                            <div class="h-2 w-10 bg-slate-300 rounded-full"></div>
-                            <div class="space-y-3">
-                                <div class="grid grid-cols-3 gap-4">
-                                    <div class="h-2 bg-slate-300 rounded col-span-2"></div>
-                                    <div class="h-2 bg-slate-300 rounded col-span-1"></div>
-                                </div>
-                                <div class="h-2 w-24 bg-slate-300 rounded"></div>
-                                <div class="h-2 w-24 bg-slate-300 rounded"></div>
-                                <div class="h-2 w-16 bg-slate-300 rounded"></div>
-                            </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>)
-            }} onLoadSuccess={onDocumentLoadSuccess} onLoadError={onDocumentLoadError}>
-                <Page pageNumber={1} />
-            </Document>
-        </div>
-    );
+export default function ResumePage() {
+  return <div className="studio-site resume-page"><AppBar /><main className="page-width resume-main">
+    <Link className="text-link" to="/"><FiArrowLeft /> Back to portfolio</Link>
+    <div className="resume-heading"><div><p className="eyebrow">EXPERIENCE & BACKGROUND</p><h1>My résumé.</h1></div><div className="button-row"><a className="text-link" href={resume} target="_blank" rel="noreferrer">Open PDF<FiArrowUpRight /></a><a className="studio-button" href={resume} download="Surafel-Kindu-Resume.pdf">Download CV<FiDownload /></a></div></div>
+    <iframe className="resume-document" src={`${resume}#view=FitH`} title="Surafel Kindu’s updated résumé" />
+  </main></div>;
 }
-
-export default ResumePage;

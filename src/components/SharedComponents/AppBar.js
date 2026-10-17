@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FiArrowUpRight, FiMenu, FiX } from 'react-icons/fi';
+import { SHOW_FIELD_NOTES } from '../../data/siteFeatures';
 const menus = [{
   name: 'Work',
   url: 'work'
@@ -11,10 +12,9 @@ const menus = [{
   name: 'Lab',
   url: 'projects'
 }, {
-  name: 'Journal',
-  url: '/blog',
-  route: true
-}];
+  name: 'Stack',
+  url: 'stack'
+}, ...(SHOW_FIELD_NOTES ? [{ name: 'Journal', url: '/blog', route: true }] : [])];
 export default function AppBar() {
   const [open, setOpen] = useState(false);
   const [scrollTarget, setScrollTarget] = useState(null);

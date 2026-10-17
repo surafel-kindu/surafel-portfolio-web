@@ -161,10 +161,7 @@
 .asili-landscape svg g {
   animation: contour-drift 10s ease-in-out infinite;
 }
-.product-asili .product-wordmark>span {
-  transform-origin: center;
-  animation: studio-spin 36s linear infinite;
-}
+
 .halt-orbits>span {
   animation: studio-spin 18s linear infinite;
 }
@@ -186,9 +183,7 @@
   background: var(--accent);
   box-shadow: 0 0 12px #e7683e40;
 }
-.portrait-star {
-  animation: studio-spin 40s linear infinite;
-}
+
 .motion-ready [data-reveal] {
   opacity: 0;
   transform: translateY(20px);
